@@ -1,7 +1,7 @@
 use fips202::shake256;
 use rand::Rng;
 use regex::Regex;
-use serde_json::Value;
+use serde_json_borrow::Value;
 use std::collections::HashMap;
 use std::env;
 use std::fs;

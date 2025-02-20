@@ -33,7 +33,7 @@ fn main() {
 }
 
 fn encode(hash: &str, mode: &str) {
-    if !hash.chars().all(|c| c.is_ascii_hexdigit()) || hash.len() % 8 != 0 {
+    if !hash.chars().all(|c| c.is_ascii_hexdigit()) || hash.len() % 4 != 0 {
         eprintln!("{}", format_text("Invalid info-hash provided", 196));
         exit(1);
     }
@@ -65,7 +65,6 @@ fn encode(hash: &str, mode: &str) {
             exit(1);
         });
 
-    let last_element = hash_array.last().unwrap();
     let protocol = match hash.len() {
         40 => "magnet:?xt=urn:btih:",
         64 => "magnet:?xt=urn:btmh:1220",
@@ -134,7 +133,7 @@ fn encode(hash: &str, mode: &str) {
 
             mnemonic_sentence.push_str(word);
 
-            if hash_snippet != last_element {
+            if i != hash_array.len() {
                 mnemonic_sentence.push('-');
             }
         } else {

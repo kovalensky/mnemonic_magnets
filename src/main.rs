@@ -4,9 +4,9 @@ use regex::Regex;
 use rust_embed::Embed;
 use serde_json_borrow::Value;
 use std::collections::HashMap;
-use std::env;
-use std::io::{self, Write};
+use std::io::{self, BufReader, BufWriter, Cursor, Write};
 use std::process::exit;
+use std::{env, fs};
 
 #[derive(Embed)]
 #[folder = "data/"]
@@ -50,8 +50,29 @@ fn encode(hash: &str, mode: &str) {
         .map(|chunk| chunk.iter().collect::<String>())
         .collect();
 
-    let file_binding = Asset::get("dictionary/dictionary.json").unwrap();
-    let dictionary_string = std::str::from_utf8(file_binding.data.as_ref()).unwrap();
+    let dictionary_path = env::temp_dir().join("mnemonic_dictionary.json");
+    if !fs::metadata(&dictionary_path).is_ok() {
+        let file_binding = Asset::get("dictionary/dictionary.xz").unwrap();
+        let cursor = Cursor::new(file_binding.data.as_ref());
+        let mut buf_reader = BufReader::new(cursor);
+
+        let open_file = fs::OpenOptions::new()
+            .write(true)
+            .append(false)
+            .create(true)
+            .truncate(true)
+            .open(&dictionary_path)
+            .unwrap();
+
+        let mut buf_writer = BufWriter::new(open_file);
+        print!("Uncompressing dictionary to temp folder...");
+        lzma_rs::xz_decompress(&mut buf_reader, &mut buf_writer).unwrap();
+        print!("\r\x1b[K");
+    }
+
+    let dictionary_string = fs::read_to_string(&dictionary_path).unwrap_or_else(|_| {
+        panic!("Can't read temp directory");
+    });
 
     let dictionary: HashMap<String, Value> = serde_json::from_str(&dictionary_string)
         .unwrap_or_else(|_| {

@@ -32,10 +32,3 @@ Mnemonic decoding:
 > mnm decode songent-varicella-definissent-reformation-restaging-pilotin-blackstock-glick-tuilleries-complaisantly
 # magnet:?xt=urn:btih:f52b4103641b696edafecb1b2d64711f043fdffc
 ```
-
-# Credits
-[@fmerg](https://github.com/fmerg) and his contributors for the SHAKE256 implementation.
-
-[@david47k](https://github.com/david47k) for the dictionary.
-
-The code here is largely undocumented.

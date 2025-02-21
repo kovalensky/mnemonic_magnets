@@ -8,6 +8,7 @@ use std::io::{self, BufReader, BufWriter, Cursor, Write};
 use std::process::exit;
 use std::{env, fs};
 
+const VERSION: &str = "1.0.0-stable";
 #[derive(Embed)]
 #[folder = "data/"]
 #[prefix = "dictionary/"]
@@ -16,7 +17,7 @@ struct Asset;
 fn main() {
     let args: Vec<_> = env::args().collect();
     if args.len() <= 2 {
-        println!("\nUsage:\n\n mnm `command` `payload` `mode`\n\n`command` — `encode` (for hash payload) or `decode` (mnemonic payload)\n`mode` (optional) — `auto` or if you want to be able to choose your own words, then it's `pick`\n\nAuthor: \x1b]8;;https://github.com/kovalensky\x1b\\kovalensky\x1b]8;;\x1b\\\n");
+        println!("\nUsage:\n\n mnm `command` `payload` `mode`\n\n`command` — `encode` (for hash payload) or `decode` (mnemonic payload)\n`mode` (optional) — `auto` or if you want to be able to choose your own words, then it's `pick`\n\nVersion: {}\nAuthor: \x1b]8;;https://github.com/kovalensky\x1b\\kovalensky\x1b]8;;\x1b\\\n", VERSION);
         exit(0);
     }
 

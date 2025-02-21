@@ -1,12 +1,17 @@
 use fips202::shake256;
 use rand::Rng;
 use regex::Regex;
+use rust_embed::Embed;
 use serde_json_borrow::Value;
 use std::collections::HashMap;
 use std::env;
-use std::fs;
 use std::io::{self, Write};
 use std::process::exit;
+
+#[derive(Embed)]
+#[folder = "data/"]
+#[prefix = "dictionary/"]
+struct Asset;
 
 fn main() {
     let args: Vec<_> = env::args().collect();
@@ -45,19 +50,8 @@ fn encode(hash: &str, mode: &str) {
         .map(|chunk| chunk.iter().collect::<String>())
         .collect();
 
-    let dictionary_file = "./data/dictionary.json";
-    if !fs::metadata(&dictionary_file).is_ok() {
-        eprintln!(
-            "{} {}",
-            format_text("Can't locate the dictionary:", 196),
-            &dictionary_file
-        );
-        exit(1);
-    }
-
-    let dictionary_string = fs::read_to_string(&dictionary_file).unwrap_or_else(|_| {
-        panic!("Can't read {}", &dictionary_file);
-    });
+    let file_binding = Asset::get("dictionary/dictionary.json").unwrap();
+    let dictionary_string = std::str::from_utf8(file_binding.data.as_ref()).unwrap();
 
     let dictionary: HashMap<String, Value> = serde_json::from_str(&dictionary_string)
         .unwrap_or_else(|_| {

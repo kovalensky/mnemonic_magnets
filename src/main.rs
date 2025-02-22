@@ -8,7 +8,7 @@ use std::io::{self, BufReader, BufWriter, Cursor, Write};
 use std::process::exit;
 use std::{env, fs};
 
-const VERSION: &str = "1.0.0-stable";
+const VERSION: &str = "1.0.1-stable";
 #[derive(Embed)]
 #[folder = "data/"]
 #[prefix = "dictionary/"]

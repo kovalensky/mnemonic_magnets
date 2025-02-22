@@ -1,7 +1,7 @@
 [package]
 name = "mnm"
 edition = "2021"
-version = "1.0.0"
+version = "1.0.1"
 license = "Unlicense"
 description = "Mnemonic sentences for BitTorrent info-hashes"
 repository = "https://github.com/kovalensky/mnemonic_magnets"

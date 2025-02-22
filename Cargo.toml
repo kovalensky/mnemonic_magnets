@@ -1,19 +1,22 @@
 [package]
 name = "mnm"
-version = "1.0.0"
 edition = "2021"
+version = "1.0.0"
+license = "Unlicense"
+description = "Mnemonic sentences for BitTorrent info-hashes"
+repository = "https://github.com/kovalensky/mnemonic_magnets"
 
 [dependencies]
-fips202 = { git = "https://github.com/fmerg/fips202-XOFs.git" }
-serde_json_borrow = "0.7.1"
-serde_json = "1.0.139"
 rand = "0.9.0"
-rust-embed = "8.4.0"
 regex = "1.11.1"
 lzma-rs = "0.3.0"
+rust-embed = "8.4.0"
+serde_json = "1.0.139"
+serde_json_borrow = "0.7.1"
+crystals-dilithium = "1.0.0"
 
 [profile.release]
-# opt-level = 'z'
 # lto = true 
-panic = 'abort'
 strip = true
+panic = 'abort'
+# opt-level = 'z'

@@ -1,4 +1,4 @@
-use fips202::shake256;
+use crystals_dilithium::fips202::shake256;
 use rand::Rng;
 use regex::Regex;
 use rust_embed::Embed;
@@ -61,7 +61,6 @@ fn encode(hash: &str, mode: &str) {
             .write(true)
             .append(false)
             .create(true)
-            .truncate(true)
             .open(&dictionary_path)
             .unwrap();
 
@@ -187,11 +186,11 @@ fn decode(mnemonic: &str) {
 
     for word in mnemonic {
         let input = &mut word.as_bytes().to_owned();
-        let mut inlen = input.len();
+        let inlen = input.len();
         let mut output = OUTPUT_DIGEST_LENGTH;
         let outlen = output.len();
 
-        shake256(&mut output, outlen, input, &mut inlen);
+        shake256(&mut output, outlen, input, inlen);
         for byte in &output {
             hash.push_str(&format!("{:02x}", byte));
         }

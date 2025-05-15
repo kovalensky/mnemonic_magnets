@@ -8,7 +8,7 @@ use std::io::{self, BufReader, BufWriter, Cursor, Write};
 use std::process::exit;
 use std::{env, fs};
 
-const VERSION: &str = "1.0.1-stable";
+const VERSION: &str = "1.0.2-stable";
 #[derive(Embed)]
 #[folder = "data/"]
 #[prefix = "dictionary/"]
@@ -39,6 +39,7 @@ fn main() {
 }
 
 fn encode(hash: &str, mode: &str) {
+	let hash = hash.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:", "");
     if !hash.chars().all(|c| c.is_ascii_hexdigit()) || hash.len() % 4 != 0 {
         eprintln!("{}", format_text("Invalid info-hash provided", 196));
         exit(1);
@@ -169,8 +170,9 @@ fn encode(hash: &str, mode: &str) {
 
 fn decode(mnemonic: &str) {
     let re = Regex::new(r"^[\p{L}]+(-[\p{L}]+)*$").unwrap();
+	let mnemonic = mnemonic.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:", "");
 
-    if !re.is_match(mnemonic) {
+    if !re.is_match(&mnemonic) {
         eprintln!("{}", format_text("Invalid mnemonic sentence provided", 196));
         exit(1);
     }

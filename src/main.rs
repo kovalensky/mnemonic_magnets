@@ -8,7 +8,7 @@ use std::io::{self, BufReader, BufWriter, Cursor, Write};
 use std::process::exit;
 use std::{env, fs};
 
-const VERSION: &str = "1.0.2-stable";
+const VERSION: &str = "1.0.3-stable";
 #[derive(Embed)]
 #[folder = "data/"]
 #[prefix = "dictionary/"]
@@ -39,7 +39,7 @@ fn main() {
 }
 
 fn encode(hash: &str, mode: &str) {
-	let hash = hash.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:", "");
+	let hash = hash.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:1220", "");
     if !hash.chars().all(|c| c.is_ascii_hexdigit()) || hash.len() % 4 != 0 {
         eprintln!("{}", format_text("Invalid info-hash provided", 196));
         exit(1);
@@ -170,7 +170,7 @@ fn encode(hash: &str, mode: &str) {
 
 fn decode(mnemonic: &str) {
     let re = Regex::new(r"^[\p{L}]+(-[\p{L}]+)*$").unwrap();
-	let mnemonic = mnemonic.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:", "");
+	let mnemonic = mnemonic.replace("magnet:?xt=urn:btih:", "").replace("magnet:?xt=urn:btmh:1220", "");
 
     if !re.is_match(&mnemonic) {
         eprintln!("{}", format_text("Invalid mnemonic sentence provided", 196));
